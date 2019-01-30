@@ -1,0 +1,29 @@
+name: Editable with ContentTools
+version: 0.1.0
+description: A Frontend WYSIWYG Editor
+icon: edit
+author:
+  name: bleutzinn
+  email: bleutzinn@festeto.net
+homepage: https://github.com/bleutzinn/grav-plugin-editable-contenttools
+demo: https://festeto.net/editable-contenttools-demo
+keywords: grav, plugin, editor, wysiwyg, markdown, frontend
+bugs: https://github.com/bleutzinn/grav-plugin-editable-contenttools/issues
+license: MIT
+
+dependencies:
+    - { name: shortcode-core }
+
+form:
+  validation: strict
+  fields:
+    enabled:
+      type: toggle
+      label: PLUGIN_ADMIN.PLUGIN_STATUS
+      highlight: 1
+      default: 0
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
