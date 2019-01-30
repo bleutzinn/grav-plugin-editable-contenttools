@@ -159,7 +159,7 @@ class EditableContentToolsPlugin extends Plugin
         }
 
         // Check for user authorisation
-        $this->user_authorized = $this->userIsAuthorized($page, $this->grav['user']);
+        $this->user_authorized = $this->userIsAuthorized($this->grav['page'], $this->grav['user']);
 
         // Abort when the user is not authorized
         if (!$this->user_authorized) {
@@ -181,9 +181,6 @@ class EditableContentToolsPlugin extends Plugin
     public function onShortcodeHandlers()
     {
         $this->grav['shortcode']->registerShortcode('EditableContentToolsShortcode.php' , __DIR__.'/shortcodes/');
-
-        $this->grav['debugger']->addMessage('Shortcode registered');
-
     }
 
     /**
