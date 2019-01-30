@@ -6,7 +6,7 @@ author:
   name: bleutzinn
   email: bleutzinn@festeto.net
 homepage: https://github.com/bleutzinn/grav-plugin-editable-contenttools
-demo: https://festeto.net/editable-contenttools-demo
+demo: https://festeto.net/demo-grav-plugin-editable-contenttools/
 keywords: grav, plugin, editor, wysiwyg, markdown, frontend
 bugs: https://github.com/bleutzinn/grav-plugin-editable-contenttools/issues
 license: MIT
