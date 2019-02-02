@@ -74,29 +74,6 @@ Allowing backend users to edit pages in the frontend requires the Grav option `s
 A backend or Admin user must have the permission `admin.super` or `admin.pages` to be allowed to edit a page.
 
 
-### User and group permissions
-
-A page can be made editable by one or more users or groups. To learn about users, groups and permissions see the documentation on [Groups and Permissions](https://learn.getgrav.org/advanced/groups-and-permissions), the [Login Plugin](https://github.com/getgrav/grav-plugin-login) and [Standard Administration Panel Plugin](https://github.com/getgrav/grav-plugin-admin). 
-
-Given this page's frontmatter:
-
-```
-editable:
-    editable_by:
-        - brigitte
-        - tom
-        -
-            users:
-                - frank
-                - jane
-        -
-            groups:
-                - editors
-        - trinity
-```
-
-and assuming user permissions are set right, only the named users plus the users belonging to the group "editors" are allowed to edit that page.
-
 ## Credits
 
 Thanks go to Team Grav and everyone on the [Grav Forum](https://getgrav.org/forum) for creating and supporting Grav.
