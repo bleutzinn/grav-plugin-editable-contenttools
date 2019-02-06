@@ -32,8 +32,8 @@ class EditableContentToolsPlugin extends Plugin
 
         // Add code
         $assets->addJs('plugin://' . $this->my_name . '/vendor/turndown.js', 1);
-        $assets->AddJs('https://unpkg.com/turndown-plugin-gfm/dist/turndown-plugin-gfm.js', 1);
         $assets->addJs('plugin://' . $this->my_name . '/vendor/content-tools.min.js', 1);
+        $assets->AddJs('https://unpkg.com/turndown-plugin-gfm/dist/turndown-plugin-gfm.js', 1);
 
         // Add reference to dynamically created assets
         $route = $this->grav['page']->route();
@@ -43,6 +43,23 @@ class EditableContentToolsPlugin extends Plugin
         //$assets->addJs($this->my_name . $route . '/editor.js', ['group' => 'bottom']);
         $assets->addJs($this->my_name . '-api' . $route . '/editor.js', ['group' => 'bottom']);
     }
+
+    /**
+     * This will execute $cmd in the background (no cmd window)
+     * without PHP waiting for it to finish, on both Windows and Unix.
+     * http://php.net/manual/en/function.exec.php#86329
+     * 
+     * Not tested on Windows by plugin dev
+     * 
+     */
+    public function execInBackground($cmd) { 
+        if (substr(php_uname(), 0, 7) == "Windows"){ 
+            pclose(popen("start /B ". $cmd, "r"));  
+        } 
+        else { 
+            exec($cmd . " > /dev/null &");   
+        } 
+    } 
 
     /**
      * @return array
@@ -187,6 +204,17 @@ class EditableContentToolsPlugin extends Plugin
             // Do the actual save action
             $page->rawMarkdown($content);
             $page->save();
+            
+            // Trigger Git Sync
+            $config = $this->grav['config'];
+            if ($config->get('plugins.git-sync.enabled') &&
+                $config->get('plugins.editable-contenttools.git-sync')) {
+                
+                $command = GRAV_ROOT . '/bin/plugin git-sync sync';
+                
+                $this->execInBackground($command);
+            }
+
             exit;
         }
 
