@@ -1,5 +1,5 @@
 name: Editable with ContentTools
-version: 1.0.0
+version: 1.1.0
 description: A Frontend WYSIWYG Editor
 icon: edit
 author:
@@ -25,5 +25,15 @@ form:
       options:
         1: PLUGIN_ADMIN.ENABLED
         0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+    git-sync:
+      type: toggle
+      label: Trigger Git Sync event on save
+      highlight: 1
+      default: 0
+      options:
+        1: PLUGIN_ADMIN.YES
+        0: PLUGIN_ADMIN.NO
       validate:
         type: bool
