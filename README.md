@@ -1,17 +1,9 @@
 # Editable with ContentTools Plugin
 
 The **Editable with ContentTools** Plugin is for [Grav CMS](http://github.com/getgrav/grav).   
-
 The plugin allows authors to edit page content in the frontend using the WYSIWYG editor [ContentTools](http://getcontenttools.com/) and save it as Markdown.
 
-
-![](https://user-images.githubusercontent.com/9297677/52176724-f3d71100-27b6-11e9-87fd-6ddc998d62b1.png)
-
-***
-
 > **Important:** The plugin works with regular pages. To put it the other way around, it can not work with content which is inserted via Twig, through Javascript, by a plugins or any other way of processing.
- 
-***
 
 ## Installation
 
@@ -35,9 +27,12 @@ Here is the default configuration and an explanation of available options:
 
 ```yaml
 enabled: true
+git-sync: false
 ```
 
 Setting `enabled` to `true` enables or activates the plugin.
+
+When `git-sync` is `true` and the Git Sync plugin is installed and enabled, every save action triggers a Git Sync synchronisation.
 
 ## Usage
 
