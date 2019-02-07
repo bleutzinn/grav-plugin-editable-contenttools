@@ -209,10 +209,14 @@ class EditableContentToolsPlugin extends Plugin
             $config = $this->grav['config'];
             if ($config->get('plugins.git-sync.enabled') &&
                 $config->get('plugins.editable-contenttools.git-sync')) {
-                
-                $command = GRAV_ROOT . '/bin/plugin git-sync sync';
-                
-                $this->execInBackground($command);
+                    if ($config->get('plugins.editable.git-sync-mode') == 'background') {
+                        $command = GRAV_ROOT . '/bin/plugin git-sync sync';
+                        $this->execInBackground($command);
+                    }
+                    else {
+                        $this->grav->fireEvent('gitsync');
+                    }
+
             }
 
             exit;
