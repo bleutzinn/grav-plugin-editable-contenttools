@@ -1,9 +1,15 @@
+# v1.2.0
+##  02/07/2019
+
+1. [](#added)
+    * Added option to do a Git Sync in fore or background
+
 # v1.1.0
 ##  02/06/2019
 
 1. [](#added)
     * Git Sync support
-    
+
 # v1.0.0
 ##  02/02/2019
 
