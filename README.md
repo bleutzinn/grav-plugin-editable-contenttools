@@ -35,7 +35,8 @@ Setting `enabled` to `true` enables or activates the plugin.
 
 When `git-sync` is `true` and the Git Sync plugin is installed and enabled, every save action triggers a Git Sync synchronisation.
 
-The `git-sync-mode` setting defaults to `foreground` where the plugin halts until the synchronisation is finished before control is handed back to the user. The `background` setting is still experimental.
+The `git-sync-mode` setting defaults to `foreground` where the plugin halts until the synchronisation is finished before control is handed back to the user. When set to `background` the syncing happens without any noticable delay.   
+Note: background syncing has not been tested on a Windows server.
 
 ## Usage
 
@@ -82,7 +83,11 @@ A backend or Admin user must have the permission `admin.super` or `admin.pages` 
 
 ## Credits
 
-Thanks go to Team Grav and everyone on the [Grav Forum](https://getgrav.org/forum) for creating and supporting Grav.
+Thanks go to:
+
+- Team Grav and everyone on the [Grav Forum](https://getgrav.org/forum) for creating and supporting Grav.
+- getme for creating ContentTools.
+- Dom Christie for creating Turndown.
 
 ## To Do's
 <a name="todos"></a>
