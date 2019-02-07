@@ -1,3 +1,10 @@
+# v1.2.1
+##  02/07/2019
+
+1. [](#improved)
+    * Fixed typo in configuration
+    * Changed CDN resource to local
+
 # v1.2.0
 ##  02/07/2019
 
