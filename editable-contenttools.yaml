@@ -1,2 +1,3 @@
 enabled: true
 git-sync: false
+git-sync-mode: foreground
