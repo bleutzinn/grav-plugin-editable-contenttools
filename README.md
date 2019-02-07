@@ -28,11 +28,14 @@ Here is the default configuration and an explanation of available options:
 ```yaml
 enabled: true
 git-sync: false
+git-sync-mode: foreground
 ```
 
 Setting `enabled` to `true` enables or activates the plugin.
 
 When `git-sync` is `true` and the Git Sync plugin is installed and enabled, every save action triggers a Git Sync synchronisation.
+
+The `git-sync-mode` setting defaults to `foreground` where the plugin halts until the synchronisation is finished before control is handed back to the user. The `background` setting is still experimental.
 
 ## Usage
 
