@@ -33,14 +33,13 @@ class EditableContentToolsPlugin extends Plugin
         // Add code
         $assets->addJs('plugin://' . $this->my_name . '/vendor/turndown.js', 1);
         $assets->addJs('plugin://' . $this->my_name . '/vendor/content-tools.min.js', 1);
-        $assets->AddJs('https://unpkg.com/turndown-plugin-gfm/dist/turndown-plugin-gfm.js', 1);
+        $assets->AddJs('plugin://' . $this->my_name . '/vendor/turndown-plugin-gfm.js', 1);
 
         // Add reference to dynamically created assets
         $route = $this->grav['page']->route();
         if ($route == '/') {
             $route = '';
         }
-        //$assets->addJs($this->my_name . $route . '/editor.js', ['group' => 'bottom']);
         $assets->addJs($this->my_name . '-api' . $route . '/editor.js', ['group' => 'bottom']);
     }
 
@@ -53,10 +52,10 @@ class EditableContentToolsPlugin extends Plugin
      * 
      */
     public function execInBackground($cmd) { 
-        if (substr(php_uname(), 0, 7) == "Windows"){ 
+        if (strtolower(substr(php_uname('s'), 0, 3)) == "win"){ 
             pclose(popen("start /B ". $cmd, "r"));  
         } 
-        else { 
+        else {
             exec($cmd . " > /dev/null &");   
         } 
     } 
@@ -207,14 +206,19 @@ class EditableContentToolsPlugin extends Plugin
             
             // Trigger Git Sync
             $config = $this->grav['config'];
+            
             if ($config->get('plugins.git-sync.enabled') &&
                 $config->get('plugins.editable-contenttools.git-sync')) {
-                    if ($config->get('plugins.editable.git-sync-mode') == 'background') {
+                    if ($config->get('plugins.editable-contenttools.git-sync-mode') == 'background') {
+            
                         $command = GRAV_ROOT . '/bin/plugin git-sync sync';
                         $this->execInBackground($command);
+            
                     }
                     else {
+            
                         $this->grav->fireEvent('gitsync');
+            
                     }
 
             }
