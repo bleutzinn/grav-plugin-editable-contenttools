@@ -2,6 +2,7 @@
 ##  02/07/2019
 
 1. [](#improved)
+    * Improved server OS detection
     * Fixed typo in configuration
     * Changed CDN resource to local
 
