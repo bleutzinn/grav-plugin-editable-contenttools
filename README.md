@@ -5,6 +5,11 @@ The plugin allows authors to edit page content in the frontend using the WYSIWYG
 
 > **Important:** The plugin works with regular pages. To put it the other way around, it can not work with content which is inserted via Twig, through Javascript, by a plugins or any other way of processing.
 
+***
+
+![](https://user-images.githubusercontent.com/9297677/52176724-f3d71100-27b6-11e9-87fd-6ddc998d62b1.png)
+
+
 ## Installation
 
 Typically the plugin should be installed via [GPM](http://learn.getgrav.org/advanced/grav-gpm) (Grav Package Manager):
