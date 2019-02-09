@@ -78,7 +78,8 @@ class EditableContentToolsPlugin extends Plugin
     }
 
     /**
-     * Add Editor to the page
+     * When a user is authorized preprocess editable region shortcodes
+     * and add Editor to the page
      */
     public function onPageInitialized()
     {
@@ -89,6 +90,36 @@ class EditableContentToolsPlugin extends Plugin
         }
 
         if ($this->userAuthorized()) {
+
+            $page = $this->grav['page'];
+            $content = $page->rawMarkdown();
+
+            // Check shortcode names
+            // Insert when missing: [editable] | [editable name=""]
+            // Replace "reserved" values, e.g.: [editable name="region-3"]
+            $re = '/((\[editable)(( +name="(region-[0-9]*)*") *\]|\]))/is';
+
+            preg_match_all($re, $content, $matches, PREG_SET_ORDER, 0);
+
+            $i = 0;
+            foreach ($matches as $match) {
+
+                // Insert or replace name parameter
+                $pos = strpos($content, $match[0]);
+                if ($pos !== false) {
+                    $content = substr_replace($content, '[editable name="region-' . $i . '"]', $pos, strlen($match[0]));
+                }
+                $i++;
+            }
+
+            // If content was modified save the page
+            if ($i > 0) {
+                // Do the actual save action
+                $page->rawMarkdown($content);
+                $page->save();
+                $this->grav['pages']->dispatch($page->route());
+            }
+            
             $this->addAssets();
         }
     }
@@ -195,7 +226,7 @@ class EditableContentToolsPlugin extends Plugin
                 $value = PHP_EOL . $value . PHP_EOL;
 
                 // Replace each shortcode content
-                if (preg_match('/\[editable .*?name=[\'"]' . $key . '[\'"].*?\](.*?)\[\/editable\]/is', $content, $matches) == 1) {
+                if (preg_match('/\[editable .*?name="' . $key . '".*?\](.*?)\[\/editable\]/is', $content, $matches) == 1) {
                     $content = str_replace($matches[1], $value, $content);
                 }
             }
