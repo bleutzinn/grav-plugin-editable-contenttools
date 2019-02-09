@@ -13,12 +13,6 @@ Please visit the [ContentTools](http://getcontenttools.com/) website for tips on
 ![Screenshot of Grav with the ContentTools editor in use](https://user-images.githubusercontent.com/9297677/52519784-004ce500-2c61-11e9-9645-a3191c941ac2.png)
 
 
-
-***
-
-![](https://user-images.githubusercontent.com/9297677/52176724-f3d71100-27b6-11e9-87fd-6ddc998d62b1.png)
-
-
 ## Installation
 
 Typically the plugin should be installed via [GPM](http://learn.getgrav.org/advanced/grav-gpm) (Grav Package Manager):
