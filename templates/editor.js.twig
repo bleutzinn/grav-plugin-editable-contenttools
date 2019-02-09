@@ -10,7 +10,7 @@ var gfm = turndownPluginGfm.gfm;
 // Set Grav 'compliant' Markdown flavour
 var turndownService = new TurndownService({
 	headingStyle: 'atx',
-	hr: '---',
+	hr: '***',
 	codeBlockStyle: 'fenced'
 });
 turndownService.use(gfm);
@@ -24,10 +24,7 @@ ContentTools.DEFAULT_TOOLS = [
     [
         'bold',
         'italic',
-        'link',
-        'align-left',
-        'align-center',
-        'align-right'
+        'link'
     ], [
         'heading',
         'subheading',
@@ -37,9 +34,6 @@ ContentTools.DEFAULT_TOOLS = [
         'table',
         'indent',
         'unindent',
-        'line-break'
-    ], [
-        'video',
         'preformatted'
     ], [
         'undo',
