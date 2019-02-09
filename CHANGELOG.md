@@ -1,3 +1,15 @@
+# v1.3.1
+##  02/09/2019
+
+1. [](#improved)
+    * Reduced available ContentTools tools
+
+# v1.3.0
+##  02/08/2019
+
+1. [](#added)
+    * Auto naming of editable shortcodes
+
 # v1.2.1
 ##  02/07/2019
 
