@@ -3,9 +3,7 @@ namespace Grav\Plugin;
 
 use Grav\Common\Page\Page;
 use Grav\Common\Plugin;
-use Grav\Common\Twig\Twig;
 use Grav\Common\Utils;
-use RocketTheme\Toolbox\Event\Event;
 
 /**
  * Class EditableContentToolsPlugin
@@ -47,18 +45,18 @@ class EditableContentToolsPlugin extends Plugin
      * This will execute $cmd in the background (no cmd window)
      * without PHP waiting for it to finish, on both Windows and Unix.
      * http://php.net/manual/en/function.exec.php#86329
-     * 
+     *
      * Not tested on Windows by plugin dev
-     * 
+     *
      */
-    public function execInBackground($cmd) { 
-        if (strtolower(substr(php_uname('s'), 0, 3)) == "win"){ 
-            pclose(popen("start /B ". $cmd, "r"));  
-        } 
-        else {
-            exec($cmd . " > /dev/null &");   
-        } 
-    } 
+    public function execInBackground($cmd)
+    {
+        if (strtolower(substr(php_uname('s'), 0, 3)) == "win") {
+            pclose(popen("start /B " . $cmd, "r"));
+        } else {
+            exec($cmd . " > /dev/null &");
+        }
+    }
 
     /**
      * @return array
@@ -92,11 +90,13 @@ class EditableContentToolsPlugin extends Plugin
         if ($this->userAuthorized()) {
 
             $page = $this->grav['page'];
+            //$page = $this->page;
             $content = $page->rawMarkdown();
+            $this->grav['log']->info('In onPageInitialized()');
 
             // Check shortcode names
             // Insert when missing: [editable] | [editable name=""]
-            // Replace "reserved" values, e.g.: [editable name="region-3"]
+            // Renumber existing "reserved" values, e.g.: [editable name="region-3"]
             $re = '/((\[editable)(( +name="(region-[0-9]*)*") *\]|\]))/is';
 
             preg_match_all($re, $content, $matches, PREG_SET_ORDER, 0);
@@ -112,14 +112,28 @@ class EditableContentToolsPlugin extends Plugin
                 $i++;
             }
 
-            // If content was modified save the page
+            // If names were changed save the page
             if ($i > 0) {
                 // Do the actual save action
                 $page->rawMarkdown($content);
                 $page->save();
                 $this->grav['pages']->dispatch($page->route());
             }
-            
+
+            // Process shortcodes by parsing to HTML avoiding Twig and Parsedown Extra
+            $re = '/\[editable name="(.*?)"\](.*?)\[\/editable\]/is';
+            preg_match_all($re, $content, $matches, PREG_SET_ORDER, 0);
+
+            $parsedown = new \Parsedown();
+            foreach ($matches as $match) {
+                $find = $match[0];
+                $html = $parsedown->text($match[2]);
+                $replace = '<div data-editable data-name="' . $match[1] . '">' . $html . '</div>';
+                $content = str_replace($find, $replace, $content);
+            }
+
+            $page->rawMarkdown($content);
+
             $this->addAssets();
         }
     }
@@ -138,11 +152,11 @@ class EditableContentToolsPlugin extends Plugin
         }
 
         $paths = $this->grav['uri']->paths();
-        
+
         if (array_shift($paths) == $this->token) {
             $target = array_pop($paths);
             $route = implode('/', $paths);
-            
+
             switch ($target) {
 
                 case 'editor.js': // Return editor instantiation as Javascript
@@ -185,17 +199,8 @@ class EditableContentToolsPlugin extends Plugin
         $this->enable([
             'onPageInitialized' => ['onPageInitialized', 0],
             'onPagesInitialized' => ['onPagesInitialized', 0],
-            'onShortcodeHandlers' => ['onShortcodeHandlers', 0],
             'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
         ]);
-    }
-
-    /**
-     * Register custom shortcode
-     */
-    public function onShortcodeHandlers()
-    {
-        $this->grav['shortcode']->registerShortcode('EditableContentToolsShortcode.php', __DIR__ . '/shortcodes/');
     }
 
     /**
@@ -227,30 +232,31 @@ class EditableContentToolsPlugin extends Plugin
 
                 // Replace each shortcode content
                 if (preg_match('/\[editable .*?name="' . $key . '".*?\](.*?)\[\/editable\]/is', $content, $matches) == 1) {
-                    $content = str_replace($matches[1], $value, $content);
+                    $find = $matches[0];
+                    $replace = '[editable name="' . $key . '"]' . $value . '[/editable]';
+                    $content = str_replace($find, $replace, $content);
                 }
             }
 
             // Do the actual save action
             $page->rawMarkdown($content);
             $page->save();
-            
+
             // Trigger Git Sync
             $config = $this->grav['config'];
-            
+
             if ($config->get('plugins.git-sync.enabled') &&
                 $config->get('plugins.editable-contenttools.git-sync')) {
-                    if ($config->get('plugins.editable-contenttools.git-sync-mode') == 'background') {
-            
-                        $command = GRAV_ROOT . '/bin/plugin git-sync sync';
-                        $this->execInBackground($command);
-            
-                    }
-                    else {
-            
-                        $this->grav->fireEvent('gitsync');
-            
-                    }
+                if ($config->get('plugins.editable-contenttools.git-sync-mode') == 'background') {
+
+                    $command = GRAV_ROOT . '/bin/plugin git-sync sync';
+                    $this->execInBackground($command);
+
+                } else {
+
+                    $this->grav->fireEvent('gitsync');
+
+                }
 
             }
 
