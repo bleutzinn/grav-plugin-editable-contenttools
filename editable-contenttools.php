@@ -226,12 +226,8 @@ class EditableContentToolsPlugin extends Plugin
             $content = $page->rawMarkdown();
 
             foreach ($post as $key => $value) {
-
-                // Wrap Markdown in newlines (important!)
-                $value = PHP_EOL . $value . PHP_EOL;
-
                 // Replace each shortcode content
-                if (preg_match('/\[editable .*?name="' . $key . '".*?\](.*?)\[\/editable\]/is', $content, $matches) == 1) {
+                if (preg_match('/\[editable name="' . $key . '"\](.*?)\[\/editable\]/is', $content, $matches) == 1) {
                     $find = $matches[0];
                     $replace = '[editable name="' . $key . '"]' . $value . '[/editable]';
                     $content = str_replace($find, $replace, $content);
