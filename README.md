@@ -79,10 +79,10 @@ and **will corrupt** special Grav Markdown tags such as:
 
 There are some simple rules to keep on the safe side:
 
-* Keep images and other shortcodes outside your editable shortcodes
+* Keep images and other shortcodes outside your editable regions
 * Create small editable regions; it does not matter how many
 * Experiment and test to make sure it works for you and you don't lose valuable content
-* When you notice a difference in markup of the page with the ContentTools pen icon present and without keep that part of the page outside of your editable shortcodes
+* When you notice a difference in markup of the page with the ContentTools pen icon present and without keep that part of the page outside of your editable regions, it means trouble is ahead ;)
 
 
 
