@@ -4,14 +4,23 @@ The **Editable with ContentTools** Plugin is for [Grav CMS](http://github.com/ge
 
 The plugin allows authors to edit page content in the frontend using the WYSIWYG editor [ContentTools](http://getcontenttools.com/) and save it as Markdown.
 
-> **Important:** The plugin works with plain Markdown content in regular Grav pages. To put it the other way around, it can not work with content which is processed or inserted dynamically via Twig, shortcodes, through Javascript, by means of a plugin or any other way.
+
+
+> **Important:** The plugin works with plain Markdown content from regular Grav pages. In other words, it can not work with content which is processed or inserted dynamically via Twig, shortcodes, through Javascript, by means of a plugin or any other way.   
+>
+> This may limit its use case depending on your requirements.
+
+
 
 Please visit the [ContentTools](http://getcontenttools.com/) website for tips on using the ContentTools editor, like holding down the Shift key for about 3 seconds to see what regions on the page are editable (tip!).
+
+
 
 ***
 
 ![Screenshot of Grav with the ContentTools editor in use](https://user-images.githubusercontent.com/9297677/52519784-004ce500-2c61-11e9-9645-a3191c941ac2.png)
 
+***
 
 ## Installation
 
@@ -29,9 +38,7 @@ Make configuration changes to that copy so your changes will be kept when instal
 
 Alternatively the plugin can be installed via the [Admin Plugin](http://learn.getgrav.org/admin-panel/plugins). When using the Admin Plugin there is no need to copy the configuration files manually.
 
-### Requirements
 
-The plugin requires the [Shortcode Core Plugin](https://github.com/getgrav/grav-plugin-shortcode-core) to be installed and enabled.
 
 ## Configuration
 
@@ -53,15 +60,15 @@ The `git-sync-mode` setting defaults to `foreground` where the plugin halts unti
 
 <a name="limitedusecase"></a>
 
-## Limited use case
+## Possibly limited use case
 
 This plugin works on plain simple Markdown only. This limits the use case but is a consequence of the conversion of Markdown to HTML and back again.
 
 Just to set expectations right please note that this plugin **will not work** on a page or on content which:
 
-* is processed by a Twig template for example modulars
-* is injected by plugins for example the Page Inject Plugin
-* is altered in the browser by Javascript
+* is processed by a Twig template, for example modulars
+* is injected by plugins, for example the Page Inject Plugin
+* is altered in the browser through Javascript
 
 and **will corrupt** special Grav Markdown tags such as:
 
@@ -75,28 +82,33 @@ There are some simple rules to keep on the safe side:
 * Keep images and other shortcodes outside your editable shortcodes
 * Create small editable regions; it does not matter how many
 * Experiment and test to make sure it works for you and you don't lose valuable content
+* When you notice a difference in markup of the page with the ContentTools pen icon present and without keep that part of the page outside of your editable shortcodes
 
 
 
 ## The shortcode [editable]
 
-Page content that may be edited in the frontend is marked by using the shortcode `[editable]`. A page can contain multiple editable regions.
-
-Make sure the opening shortcode tag, the content and the closing shortcode tag are on separate lines!
+Page content that may be edited in the frontend should be marked by using the shortcode `[editable]`.
 
 For example:
 
 ```
 [editable]
+# Chapter 1
+
 Once upon a time ...
 [/editable]
 ```
+
+A page may contain any number of such editable regions.
 
 ### Shortcode name parameter (optional)
 
 For the ContentTools editor to work every editable region in a page must be uniquely identified by a 'name' parameter. Optionally you can give each shortcode a name which must be unique within the page.
 
-Again, this naming is optional. When no or an empty shortcode name parameter is present the plugin assigns a name like:
+The name parameter is optional. When non or an empty shortcode name parameter is present the plugin assigns names like "region-x" where x is a sequential increasing number.
+
+For example:
 
 ``````
 [editable name="region-0"]
@@ -104,7 +116,7 @@ Once upon a time ...
 [/editable]
 ``````
 
-To become persistant, the "named" shortcodes are saved in the page content.
+To be able to save changed content back in the right region the names need to be persistant and for that reason are automatically saved in the page content.
 
 
 
@@ -141,7 +153,7 @@ Thanks go to:
 - Team Grav and everyone on the [Grav Forum](https://getgrav.org/forum) for creating and supporting Grav
 - getme for creating ContentTools
 - Dom Christie for creating Turndown
-- [Hibbits Design](https://hibbittsdesign.org/) for testing and feedback
+- Paul Hibbits of [Hibbits Design](https://hibbittsdesign.org/) for testing and feedback
 
 
 
