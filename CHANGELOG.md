@@ -1,3 +1,9 @@
+# v1.4.0
+##  02/12/2019
+
+1. [](#improved)
+    * Removed dependency upon Shortcode Core plugin
+
 # v1.3.1
 ##  02/09/2019
 

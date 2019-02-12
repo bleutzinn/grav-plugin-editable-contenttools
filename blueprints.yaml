@@ -1,5 +1,5 @@
 name: Editable with ContentTools
-version: 1.3.1
+version: 1.4.0
 description: A Frontend WYSIWYG Editor
 icon: edit
 author:
@@ -10,9 +10,6 @@ demo: https://festeto.net/demo-grav-plugin-editable-contenttools/
 keywords: grav, plugin, editor, wysiwyg, markdown, frontend
 bugs: https://github.com/bleutzinn/grav-plugin-editable-contenttools/issues
 license: MIT
-
-dependencies:
-    - { name: shortcode-core }
 
 form:
     validation: strict
