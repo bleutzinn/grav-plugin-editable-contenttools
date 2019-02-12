@@ -116,7 +116,7 @@ Once upon a time ...
 [/editable]
 ``````
 
-To be able to save changed content back in the right region the names need to be persistant and for that reason are automatically saved in the page content.
+To be able to save changed content back into the right regions the names need to be present in the page content and are therefor automatically saved in the page.
 
 
 
@@ -150,10 +150,11 @@ A backend or Admin user must have the permission `admin.super` or `admin.pages` 
 
 Thanks go to:
 
-- Team Grav and everyone on the [Grav Forum](https://getgrav.org/forum) for creating and supporting Grav
-- getme for creating ContentTools
-- Dom Christie for creating Turndown
+- The Grav [Core Team](https://getgrav.org/about) for creating Grav
+- getme for creating [ContentTools](https://github.com/GetmeUK/ContentTools)
+- Dom Christie for creating [Turndown](https://github.com/domchristie/turndown)
 - Paul Hibbits of [Hibbits Design](https://hibbittsdesign.org/) for testing and feedback
+- Everyone on the [Grav Forum](https://getgrav.org/forum) for supporting Grav
 
 
 
