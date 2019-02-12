@@ -56,7 +56,7 @@ When `git-sync` is `true` and the Git Sync plugin is installed and enabled, ever
 
 The `git-sync-mode` setting defaults to `foreground` where the plugin halts until the synchronisation is finished before control is handed back to the user. When set to `background` the sync is unobtrusive to the user.
 
-> Note: the working of background syncing on Linux systems is not guaranteed to work and has currently not been tested on a Windows server.
+> Note: background syncing on Linux systems is not guaranteed to work and has currently not been tested on a Windows server. Feedback is welcome!
 
 <a name="limitedusecase"></a>
 
