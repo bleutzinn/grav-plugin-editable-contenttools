@@ -1,3 +1,9 @@
+# v1.4.1
+##  02/13/2019
+
+1. [](#improved)
+    * Fixed permanent presence of shortcodes in page
+
 # v1.4.0
 ##  02/12/2019
 
@@ -14,7 +20,7 @@
 ##  02/08/2019
 
 1. [](#added)
-    * Auto naming of editable shortcodes
+    * Added auto naming of editable shortcodes
 
 # v1.2.1
 ##  02/07/2019
