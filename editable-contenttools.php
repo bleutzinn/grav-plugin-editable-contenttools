@@ -87,12 +87,10 @@ class EditableContentToolsPlugin extends Plugin
             return;
         }
 
-        if ($this->userAuthorized()) {
+        $page = $this->grav['page'];
+        $content = $page->rawMarkdown();
 
-            $page = $this->grav['page'];
-            //$page = $this->page;
-            $content = $page->rawMarkdown();
-            $this->grav['log']->info('In onPageInitialized()');
+        if ($this->userAuthorized()) {
 
             // Check shortcode names
             // Insert when missing: [editable] | [editable name=""]
@@ -135,6 +133,22 @@ class EditableContentToolsPlugin extends Plugin
             $page->rawMarkdown($content);
 
             $this->addAssets();
+        }
+        else {
+            // Remove all shortcodes
+            $re = '/\[editable name=".*?"\](.*?)\[\/editable\]/is';
+            preg_match_all($re, $content, $matches, PREG_SET_ORDER, 0);
+
+            $this->grav['log']->info('here');
+
+            $parsedown = new \Parsedown();
+            foreach ($matches as $match) {
+                $find = $match[0];
+                $replace = $parsedown->text($match[1]);
+                $content = str_replace($find, $replace, $content);
+            }
+
+            $page->rawMarkdown($content);
         }
     }
 
