@@ -1,89 +1,92 @@
 // editor.js
 
-var nonce = "{{ nonce }}";
+document.addEventListener('DOMContentLoaded', function(event) {
+
+	var nonce = "{{ nonce }}";
+
+	// Setup conversion from HTML to Markdown according to Grav defaults
+
+	// Add gfm to enable tables
+	var gfm = turndownPluginGfm.gfm;
+	// Set Grav 'compliant' Markdown flavour
+	var turndownService = new TurndownService({
+		headingStyle: 'atx',
+		hr: '***',
+		codeBlockStyle: 'fenced'
+	});
+	turndownService.use(gfm);
+	// Set allowed HTML elements
+	turndownService.keep(['pre', 'span', 'sup', 'sub']);
 
 
-// Setup conversion from HTML to Markdown according to Grav defaults
+	// Setup ContentTools
 
-// Add gfm to enable tables
-var gfm = turndownPluginGfm.gfm;
-// Set Grav 'compliant' Markdown flavour
-var turndownService = new TurndownService({
-	headingStyle: 'atx',
-	hr: '***',
-	codeBlockStyle: 'fenced'
-});
-turndownService.use(gfm);
-// Set allowed HTML elements
-turndownService.keep(['pre', 'span', 'sup', 'sub']);
+	ContentTools.DEFAULT_TOOLS = [
+		[
+			'bold',
+			'italic',
+			'link'
+		], [
+			'heading',
+			'subheading',
+			'paragraph',
+			'unordered-list',
+			'ordered-list',
+			'table',
+			'indent',
+			'unindent',
+			'preformatted'
+		], [
+			'undo',
+			'redo',
+			'remove'
+		]
+	];
 
+	var editor = ContentTools.EditorApp.get();
+	editor.init("*[data-editable]", "data-name");
 
-// Setup ContentTools
+	editor.addEventListener("saved", function (ev) {
+		var name, payload, regions, xhr;
 
-ContentTools.DEFAULT_TOOLS = [
-    [
-        'bold',
-        'italic',
-        'link'
-    ], [
-        'heading',
-        'subheading',
-        'paragraph',
-        'unordered-list',
-        'ordered-list',
-        'table',
-        'indent',
-        'unindent',
-        'preformatted'
-    ], [
-        'undo',
-        'redo',
-        'remove'
-    ]
-];
-
-var editor = ContentTools.EditorApp.get();
-editor.init("*[data-editable]", "data-name");
-
-editor.addEventListener("saved", function (ev) {
-	var name, payload, regions, xhr;
-
-	// Check that something changed
-	regions = ev.detail().regions;
-	if (Object.keys(regions).length == 0) {
-		return;
-	}
-
-	// Set the editor as busy while we save our changes
-	this.busy(true);
-
-	// Collect the contents of each region into a FormData instance
-	payload = new FormData();
-  payload.append('ct-nonce', nonce);
-	for (name in regions) {
-		if (regions.hasOwnProperty(name)) {
-			payload.append(name, turndownService.turndown(regions[name]));
+		// Check that something changed
+		regions = ev.detail().regions;
+		if (Object.keys(regions).length == 0) {
+			return;
 		}
-	}
 
-	// Send the update content to the server to be saved
-	function onStateChange(ev) {
-		// Check if the request is finished
-		if (ev.target.readyState == 4) {
-			editor.busy(false);
-			if (ev.target.status == "200") {
-				// Save was successful, notify the user with a flash
-				new ContentTools.FlashUI("ok");
-			} else {
-				// Save failed, notify the user with a flash
-				new ContentTools.FlashUI("no");
+		// Set the editor as busy while we save our changes
+		this.busy(true);
+
+		// Collect the contents of each region into a FormData instance
+		payload = new FormData();
+		payload.append('ct-nonce', nonce);
+		for (name in regions) {
+			if (regions.hasOwnProperty(name)) {
+				payload.append(name, turndownService.turndown(regions[name]));
 			}
 		}
-	}
-  
-	// Request saving 
-	xhr = new XMLHttpRequest();
-	xhr.addEventListener("readystatechange", onStateChange);
-	xhr.open("POST", "{{ save_url }}");
-	xhr.send(payload);
+
+		// Send the update content to the server to be saved
+		function onStateChange(ev) {
+			// Check if the request is finished
+			if (ev.target.readyState == 4) {
+				editor.busy(false);
+				if (ev.target.status == "200") {
+					// Save was successful, notify the user with a flash
+					new ContentTools.FlashUI("ok");
+				} else {
+					// Save failed, notify the user with a flash
+					new ContentTools.FlashUI("no");
+				}
+			}
+		}
+	
+		// Request saving 
+		xhr = new XMLHttpRequest();
+		xhr.addEventListener("readystatechange", onStateChange);
+		xhr.open("POST", "{{ save_url }}");
+		xhr.send(payload);
+	});
+
 });
