@@ -133,13 +133,17 @@ class EditableContentToolsPlugin extends Plugin
             $page->rawMarkdown($content);
 
             $this->addAssets();
+
+            // Update the current Page object content
+            // The call to Page::content() recaches the page. If not done a browser
+            // page refresh is required to properly initialize the ContentTools editor
+            $this->grav['page']->content($page->content());
+            
         }
         else {
             // Remove all shortcodes
             $re = '/\[editable name=".*?"\](.*?)\[\/editable\]/is';
             preg_match_all($re, $content, $matches, PREG_SET_ORDER, 0);
-
-            $this->grav['log']->info('here');
 
             $parsedown = new \Parsedown();
             foreach ($matches as $match) {
@@ -167,6 +171,7 @@ class EditableContentToolsPlugin extends Plugin
 
         $paths = $this->grav['uri']->paths();
 
+        // Check whether action is required here
         if (array_shift($paths) == $this->token) {
             $target = array_pop($paths);
             $route = implode('/', $paths);
@@ -213,7 +218,7 @@ class EditableContentToolsPlugin extends Plugin
         $this->enable([
             'onPageInitialized' => ['onPageInitialized', 0],
             'onPagesInitialized' => ['onPagesInitialized', 0],
-            'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
+            'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0]
         ]);
     }
 
