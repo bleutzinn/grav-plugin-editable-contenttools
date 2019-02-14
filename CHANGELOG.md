@@ -1,3 +1,11 @@
+
+# v1.4.2
+##  02/13/2019
+
+1. [](#improved)
+    * Added call to Page::content() to force editor initialization on first page load
+    * Placed editor initialization JS code into DOMContentLoaded event
+
 # v1.4.1
 ##  02/13/2019
 
