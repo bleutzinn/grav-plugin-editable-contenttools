@@ -46,6 +46,13 @@ document.addEventListener('DOMContentLoaded', function(event) {
 	var editor = ContentTools.EditorApp.get();
 	editor.init("*[data-editable]", "data-name");
 
+	// Hide the inspector widget
+	editor.addEventListener("started", function (ev) {
+	
+		editor.inspector().hide();
+		
+	});
+
 	editor.addEventListener("saved", function (ev) {
 		var name, payload, regions, xhr;
 
