@@ -4,6 +4,7 @@ namespace Grav\Plugin;
 use Grav\Common\Page\Page;
 use Grav\Common\Plugin;
 use Grav\Common\Utils;
+use RocketTheme\Toolbox\Event\Event;
 
 /**
  * Class EditableContentToolsPlugin
@@ -96,63 +97,73 @@ class EditableContentToolsPlugin extends Plugin
             // Insert when missing: [editable] | [editable name=""]
             // Renumber existing "reserved" values, e.g.: [editable name="region-3"]
             $re = '/((\[editable)(( +name="(region-[0-9]*)*") *\]|\]))/is';
-
             preg_match_all($re, $content, $matches, PREG_SET_ORDER, 0);
 
-            $i = 0;
-            foreach ($matches as $match) {
+            if (count($matches) > 0) {
+                $i = 0;
+                foreach ($matches as $match) {
 
-                // Insert or replace name parameter
-                $pos = strpos($content, $match[0]);
-                if ($pos !== false) {
-                    $content = substr_replace($content, '[editable name="region-' . $i . '"]', $pos, strlen($match[0]));
+                    // Insert or replace name parameter
+                    $pos = strpos($content, $match[0]);
+                    if ($pos !== false) {
+                        $content = substr_replace($content, '[editable name="region-' . $i . '"]', $pos, strlen($match[0]));
+                    }
+                    $i++;
                 }
-                $i++;
-            }
 
-            // If names were changed save the page
-            if ($i > 0) {
-                // Do the actual save action
-                $page->rawMarkdown($content);
-                $page->save();
-                $this->grav['pages']->dispatch($page->route());
+                // If names were changed save the page
+                if ($i > 0) {
+                    // Do the actual save action
+                    $page->rawMarkdown($content);
+                    $page->save();
+                    $this->grav['pages']->dispatch($page->route());
+                }
             }
 
             // Process shortcodes by parsing to HTML avoiding Twig and Parsedown Extra
             $re = '/\[editable name="(.*?)"\](.*?)\[\/editable\]/is';
             preg_match_all($re, $content, $matches, PREG_SET_ORDER, 0);
 
-            $parsedown = new \Parsedown();
-            foreach ($matches as $match) {
-                $find = $match[0];
-                $html = $parsedown->text($match[2]);
-                $replace = '<div data-editable data-name="' . $match[1] . '">' . $html . '</div>';
-                $content = str_replace($find, $replace, $content);
+            if (count($matches) > 0) {
+
+                $parsedown = new \Parsedown();
+                foreach ($matches as $match) {
+                    $find = $match[0];
+                    $html = $parsedown->text($match[2]);
+                    $replace = '<div data-editable data-name="' . $match[1] . '">' . $html . '</div>';
+                    $content = str_replace($find, $replace, $content);
+                }
+
+                $page->rawMarkdown($content);
+
+                $this->addAssets();
+
+                // Update the current Page object content
+                // The call to Page::content() recaches the page. If not done a browser
+                // page refresh is required to properly initialize the ContentTools editor
+                unset($this->grav['page']);
+                $this->grav['page'] = $page;
+                $this->grav['page']->rawMarkdown($page->rawMarkdown());
+                $this->grav['page']->content($page->content());
+
             }
-
-            $page->rawMarkdown($content);
-
-            $this->addAssets();
-
-            // Update the current Page object content
-            // The call to Page::content() recaches the page. If not done a browser
-            // page refresh is required to properly initialize the ContentTools editor
-            $this->grav['page']->content($page->content());
-            
         }
         else {
+            
             // Remove all shortcodes
             $re = '/\[editable name=".*?"\](.*?)\[\/editable\]/is';
             preg_match_all($re, $content, $matches, PREG_SET_ORDER, 0);
 
-            $parsedown = new \Parsedown();
-            foreach ($matches as $match) {
-                $find = $match[0];
-                $replace = $parsedown->text($match[1]);
-                $content = str_replace($find, $replace, $content);
-            }
+            if (count($matches) > 0) {
+                
+                foreach ($matches as $match) {
+                    $find = $match[0];
+                    $replace = $match[1];
+                    $content = str_replace($find, $replace, $content);
+                }
 
-            $page->rawMarkdown($content);
+                $page->rawMarkdown($content);
+            }
         }
     }
 
