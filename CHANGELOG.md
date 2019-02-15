@@ -1,3 +1,25 @@
+# v1.4.5
+##  02/15/2019
+
+1. [](#improved)
+    * Optimized shortcode processing
+    * Disabled the inspector widget
+    
+# v1.4.4
+##  02/15/2019
+
+1. [](#new)
+    * The ContentTools inspector widget is now hidden
+1. [](#improved)
+    * Improved page recaching
+    
+# v1.4.3
+##  02/14/2019
+
+1. [](#new)
+    * The ContentTools inspector widget is now hidden
+1. [](#improved)
+    * Improved page recaching
 
 # v1.4.2
 ##  02/13/2019
