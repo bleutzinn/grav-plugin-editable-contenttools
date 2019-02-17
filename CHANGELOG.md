@@ -1,3 +1,11 @@
+# v1.4.6-beta1
+##  02/17/2019
+
+1. [](#new)
+    * First public Beta release
+1. [](#improved)
+    * Small non functional changes
+
 # v1.4.5
 ##  02/15/2019
 
