@@ -13,9 +13,8 @@ use RocketTheme\Toolbox\Event\Event;
 class EditableContentToolsPlugin extends Plugin
 {
 
-    protected $my_name = 'editable-contenttools';
-    protected $my_full_name = 'Editable ContentTools';
-    protected $token = 'editable-contenttools-api';
+    protected $plugin_name = 'editable-contenttools';
+    protected $plugin_token = 'editable-contenttools-api';
 
     /**
      * Add Editor code and styles
@@ -26,20 +25,20 @@ class EditableContentToolsPlugin extends Plugin
         $assets = $this->grav['assets'];
 
         // Add styles
-        $assets->addCss('plugin://' . $this->my_name . '/vendor/content-tools.min.css', 1);
-        $assets->addCss('plugin://' . $this->my_name . '/css/editor.css', 1);
+        $assets->addCss('plugin://' . $this->plugin_name . '/vendor/content-tools.min.css', 1);
+        $assets->addCss('plugin://' . $this->plugin_name . '/css/editor.css', 1);
 
         // Add code
-        $assets->addJs('plugin://' . $this->my_name . '/vendor/turndown.js', 1);
-        $assets->addJs('plugin://' . $this->my_name . '/vendor/content-tools.min.js', 1);
-        $assets->AddJs('plugin://' . $this->my_name . '/vendor/turndown-plugin-gfm.js', 1);
+        $assets->addJs('plugin://' . $this->plugin_name . '/vendor/turndown.js', 1);
+        $assets->addJs('plugin://' . $this->plugin_name . '/vendor/content-tools.min.js', 1);
+        $assets->AddJs('plugin://' . $this->plugin_name . '/vendor/turndown-plugin-gfm.js', 1);
 
         // Add reference to dynamically created assets
         $route = $this->grav['page']->route();
         if ($route == '/') {
             $route = '';
         }
-        $assets->addJs($this->my_name . '-api' . $route . '/editor.js', ['group' => 'bottom']);
+        $assets->addJs($this->plugin_name . '-api' . $route . '/editor.js', ['group' => 'bottom']);
     }
 
     /**
@@ -79,6 +78,7 @@ class EditableContentToolsPlugin extends Plugin
     /**
      * When a user is authorized preprocess editable region shortcodes
      * and add Editor to the page
+     * In case the user is not authorized remove shortcode tags
      */
     public function onPageInitialized()
     {
@@ -147,15 +147,14 @@ class EditableContentToolsPlugin extends Plugin
                 $this->grav['page']->content($page->content());
 
             }
-        }
-        else {
-            
+        } else {
+
             // Remove all shortcodes
             $re = '/\[editable name=".*?"\](.*?)\[\/editable\]/is';
             preg_match_all($re, $content, $matches, PREG_SET_ORDER, 0);
 
             if (count($matches) > 0) {
-                
+
                 foreach ($matches as $match) {
                     $find = $match[0];
                     $replace = $match[1];
@@ -170,7 +169,7 @@ class EditableContentToolsPlugin extends Plugin
     /**
      * Pass valid actions (via AJAX requests) on to the editor resource to handle
      *
-     * @return the output of the editor resource
+     * @return mixed
      */
     public function onPagesInitialized()
     {
@@ -183,17 +182,17 @@ class EditableContentToolsPlugin extends Plugin
         $paths = $this->grav['uri']->paths();
 
         // Check whether action is required here
-        if (array_shift($paths) == $this->token) {
+        if (array_shift($paths) == $this->plugin_token) {
             $target = array_pop($paths);
             $route = implode('/', $paths);
 
             switch ($target) {
 
                 case 'editor.js': // Return editor instantiation as Javascript
-                    $nonce = Utils::getNonce($this->my_name . '-nonce');
+                    $nonce = Utils::getNonce($this->plugin_name . '-nonce');
 
                     // Create absolute URL including token and action
-                    $save_url = $this->grav['uri']->rootUrl(true) . '/' . $this->token . '/' . $route . '/save';
+                    $save_url = $this->grav['uri']->rootUrl(true) . '/' . $this->plugin_token . '/' . $route . '/save';
                     // Render the template
                     $output = $this->grav['twig']->processTemplate('editor.js.twig', [
                         'save_url' => $save_url,
@@ -251,7 +250,7 @@ class EditableContentToolsPlugin extends Plugin
         $post = $_POST;
         $nonce = $post['ct-nonce'];
 
-        if (Utils::verifyNonce($nonce, $this->my_name . '-nonce')) {
+        if (Utils::verifyNonce($nonce, $this->plugin_name . '-nonce')) {
             $page = $this->grav['pages']->find($route);
             $content = $page->rawMarkdown();
 
