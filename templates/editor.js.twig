@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 		codeBlockStyle: 'fenced'
 	});
 	turndownService.use(gfm);
-	// Set allowed HTML elements
+	// Set allowed HTML elements in the returned Markdown
 	turndownService.keep(['pre', 'span', 'sup', 'sub']);
 
 
