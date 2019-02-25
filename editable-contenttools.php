@@ -150,14 +150,14 @@ class EditableContentToolsPlugin extends Plugin
         } else {
 
             // Remove all shortcodes
-            $re = '/\[editable name=".*?"\](.*?)\[\/editable\]/is';
+            $re = '/\[editable( name=".*?")?\](.*?)\[\/editable\]/mis';
             preg_match_all($re, $content, $matches, PREG_SET_ORDER, 0);
 
             if (count($matches) > 0) {
 
                 foreach ($matches as $match) {
                     $find = $match[0];
-                    $replace = $match[1];
+                    $replace = $match[2];
                     $content = str_replace($find, $replace, $content);
                 }
 
