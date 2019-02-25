@@ -1,3 +1,11 @@
+# v1.4.7
+##  02/25/2019
+
+1. [](#new)
+    * First official public release
+1. [](#improved)
+    * Improved the removal of 'anonymous' editable tags prior to displaying a page
+
 # v1.4.6-beta1
 ##  02/17/2019
 
