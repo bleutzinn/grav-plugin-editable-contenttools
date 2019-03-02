@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
 		// Collect the contents of each region into a FormData instance
 		payload = new FormData();
+		payload.append('action', 'save');
 		payload.append('ct-nonce', nonce);
 		for (name in regions) {
 			if (regions.hasOwnProperty(name)) {
