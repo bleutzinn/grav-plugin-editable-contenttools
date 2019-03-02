@@ -29,16 +29,18 @@ class EditableContentToolsPlugin extends Plugin
         $assets->addCss('plugin://' . $this->plugin_name . '/css/editor.css', 1);
 
         // Add code
-        $assets->addJs('plugin://' . $this->plugin_name . '/vendor/turndown.js', 1);
-        $assets->addJs('plugin://' . $this->plugin_name . '/vendor/content-tools.min.js', 1);
-        $assets->AddJs('plugin://' . $this->plugin_name . '/vendor/turndown-plugin-gfm.js', 1);
+        $assets->addJs('plugin://' . $this->plugin_name . '/vendor/turndown.js');
+        $assets->addJs('plugin://' . $this->plugin_name . '/vendor/content-tools.min.js');
+        $assets->AddJs('plugin://' . $this->plugin_name . '/vendor/turndown-plugin-gfm.js');
 
-        // Add reference to dynamically created assets
-        $route = $this->grav['page']->route();
-        if ($route == '/') {
-            $route = '';
+        // Add reference to dynamically created asset editor.js
+        $route = $this->grav['uri']->baseIncludingLanguage() . $this->grav['uri']->route();
+        $path = explode('/', ltrim($route, '/'));
+        if ($this->grav['uri']->base() != $this->grav['uri']->rootUrl(true)) {
+            array_shift($path);
         }
-        $assets->addJs($this->plugin_name . '-api' . $route . '/editor.js', ['group' => 'bottom']);
+        $route = '/' . implode('/', $path);
+        $assets->addJs($this->plugin_name . '-api' . $route . '/editor.js');
     }
 
     /**
@@ -179,6 +181,12 @@ class EditableContentToolsPlugin extends Plugin
             return;
         }
 
+        if(isset($_POST['action']) && $_POST['action'] == 'save')
+        {
+            $this->saveRegions();
+            exit;
+        }
+
         $paths = $this->grav['uri']->paths();
 
         // Check whether action is required here
@@ -192,7 +200,7 @@ class EditableContentToolsPlugin extends Plugin
                     $nonce = Utils::getNonce($this->plugin_name . '-nonce');
 
                     // Create absolute URL including token and action
-                    $save_url = $this->grav['uri']->rootUrl(true) . '/' . $this->plugin_token . '/' . $route . '/save';
+                    $save_url = $this->grav['uri']->rootUrl(true) . '/' . $route;
                     // Render the template
                     $output = $this->grav['twig']->processTemplate('editor.js.twig', [
                         'save_url' => $save_url,
@@ -202,11 +210,6 @@ class EditableContentToolsPlugin extends Plugin
                     $this->setHeaders('text/javascript');
                     echo $output;
                     exit;
-
-                case 'save':
-                    if ($_POST) {
-                        $this->saveRegions('/' . $route);
-                    }
 
                 default:
                     return;
@@ -244,17 +247,17 @@ class EditableContentToolsPlugin extends Plugin
     /**
      * Save each region content to it's corresponding shortcode
      */
-    public function saveRegions($route)
+    public function saveRegions()
     {
         $result = false;
-        $post = $_POST;
-        $nonce = $post['ct-nonce'];
+        $nonce = $_POST['ct-nonce'];
 
         if (Utils::verifyNonce($nonce, $this->plugin_name . '-nonce')) {
-            $page = $this->grav['pages']->find($route);
+
+            $page = $this->grav['page'];
             $content = $page->rawMarkdown();
 
-            foreach ($post as $key => $value) {
+            foreach ($_POST as $key => $value) {
                 // Replace each shortcode content
                 if (preg_match('/\[editable name="' . $key . '"\](.*?)\[\/editable\]/is', $content, $matches) == 1) {
                     $find = $matches[0];
