@@ -1,3 +1,12 @@
+# v1.5.0
+##  03/02/2019
+
+1. [](#new)
+    * Multi language support
+1. [](#improved)
+    * Added Login plugin as a plugin dependency
+    * Removed dependency of theme bottom block for plugin Javascript code
+
 # v1.4.7
 ##  02/25/2019
 
