@@ -1,4 +1,4 @@
-# Editable with ContentTools Plugin
+# Grav Editable with ContentTools Plugin
 
 The **Editable with ContentTools** Plugin is for [Grav CMS](http://github.com/getgrav/grav).
 
