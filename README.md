@@ -8,6 +8,7 @@ The plugin allows authors to edit page content in the frontend using the WYSIWYG
 
 > **Important:** The plugin works with plain Markdown content from regular Grav pages. In other words, it can not work with content which is processed or inserted dynamically via Twig, shortcodes, through Javascript, by means of a plugin or any other way.   
 >
+> The plugin doesn't work for Modular Pages since these are assembled into a 'parent' page via Twig which is a one way process.   
 > This may limit its use case depending on your requirements.
 
 
