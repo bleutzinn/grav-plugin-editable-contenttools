@@ -2,7 +2,6 @@
 
 The **Editable with ContentTools** Plugin is for [Grav CMS](http://github.com/getgrav/grav).
 
-
 > Version 1.6.1 has successfully been tested with Grav 1.7.0-rc.20
 
 The plugin allows authors to edit page content in the frontend using the WYSIWYG editor [ContentTools](http://getcontenttools.com/) and save it as Markdown.
