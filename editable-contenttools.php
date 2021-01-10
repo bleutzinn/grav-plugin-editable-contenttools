@@ -3,6 +3,7 @@ namespace Grav\Plugin;
 
 use Grav\Common\Page\Page;
 use Grav\Common\Plugin;
+use Grav\Common\Uri;
 use Grav\Common\Utils;
 use RocketTheme\Toolbox\Event\Event;
 
@@ -25,13 +26,15 @@ class EditableContentToolsPlugin extends Plugin
         $assets = $this->grav['assets'];
 
         // Add styles
-        $assets->addCss('plugin://' . $this->plugin_name . '/vendor/content-tools.min.css', 1);
+        $assets->addCss('https://cdn.jsdelivr.net/npm/ContentTools@1.6.12/build/content-tools.min.css');
         $assets->addCss('plugin://' . $this->plugin_name . '/css/editor.css', 1);
 
         // Add code
-        $assets->addJs('plugin://' . $this->plugin_name . '/vendor/turndown.js');
-        $assets->addJs('plugin://' . $this->plugin_name . '/vendor/content-tools.min.js');
-        $assets->AddJs('plugin://' . $this->plugin_name . '/vendor/turndown-plugin-gfm.js');
+        //$assets->addJs('plugin://' . $this->plugin_name . '/vendor/turndown.js');
+        $assets->addJs('https://cdn.jsdelivr.net/npm/turndown@7.0.0/dist/turndown.js');
+        $assets->addJs('https://cdn.jsdelivr.net/npm/ContentTools@1.6.12/build/content-tools.min.js');
+        //$assets->AddJs('plugin://' . $this->plugin_name . '/vendor/turndown-plugin-gfm.js');
+        $assets->AddJs('https://cdn.jsdelivr.net/npm/turndown-plugin-gfm@1.0.2/dist/turndown-plugin-gfm.js');
 
         // Add reference to dynamically created asset editor.js
         $route = $this->grav['uri']->baseIncludingLanguage() . $this->grav['uri']->route();
@@ -40,7 +43,7 @@ class EditableContentToolsPlugin extends Plugin
             array_shift($path);
         }
         $route = '/' . implode('/', $path);
-        $assets->addJs($this->plugin_name . '-api' . $route . '/editor.js');
+        $assets->addJs(Uri::cleanPath($this->plugin_name . '-api' . $route . 'editor.js'));
     }
 
     /**
@@ -199,8 +202,8 @@ class EditableContentToolsPlugin extends Plugin
                 case 'editor.js': // Return editor instantiation as Javascript
                     $nonce = Utils::getNonce($this->plugin_name . '-nonce');
 
-                    // Create absolute URL including token and action
-                    $save_url = $this->grav['uri']->rootUrl(true) . '/' . $route;
+                    // Create absolute save URL including token and action
+                    $save_url = $this->grav['uri']->rootUrl(true) . $this->grav['uri']->referrer();
                     // Render the template
                     $output = $this->grav['twig']->processTemplate('editor.js.twig', [
                         'save_url' => $save_url,
@@ -323,6 +326,11 @@ class EditableContentToolsPlugin extends Plugin
 
     /**
      * Check that the user is permitted to edit
+     * Requires site and editable permissions in user account file:
+     * access:
+     *   site:
+     *     login: true
+     *     editable: true
      *
      * @return boolean
      */
