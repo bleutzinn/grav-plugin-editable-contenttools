@@ -1,9 +1,11 @@
-# v1.5.1
-##  11/22/2020
+# v1.6.0
+##  01/10/2021
 
+1. [](#fixed)
+    * Fixed a problem with saving when installed in a subdirectory
 1. [](#improved)
-    * Tested with Grav 1.7.0-rc.17
-
+    * Switched to using CDN for external libraries
+    
 # v1.5.0
 ##  03/02/2019
 
