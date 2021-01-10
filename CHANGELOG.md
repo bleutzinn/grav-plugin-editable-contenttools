@@ -1,3 +1,10 @@
+# v1.6.1
+##  01/10/2021
+
+1. [](#fixed)
+    * Fixed a minor code glitch
+    * Updated ReadMe to show compatibility with Grav version 1.7
+
 # v1.6.0
 ##  01/10/2021
 

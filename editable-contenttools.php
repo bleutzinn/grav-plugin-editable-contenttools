@@ -30,10 +30,8 @@ class EditableContentToolsPlugin extends Plugin
         $assets->addCss('plugin://' . $this->plugin_name . '/css/editor.css', 1);
 
         // Add code
-        //$assets->addJs('plugin://' . $this->plugin_name . '/vendor/turndown.js');
         $assets->addJs('https://cdn.jsdelivr.net/npm/turndown@7.0.0/dist/turndown.js');
         $assets->addJs('https://cdn.jsdelivr.net/npm/ContentTools@1.6.12/build/content-tools.min.js');
-        //$assets->AddJs('plugin://' . $this->plugin_name . '/vendor/turndown-plugin-gfm.js');
         $assets->AddJs('https://cdn.jsdelivr.net/npm/turndown-plugin-gfm@1.0.2/dist/turndown-plugin-gfm.js');
 
         // Add reference to dynamically created asset editor.js
@@ -43,7 +41,7 @@ class EditableContentToolsPlugin extends Plugin
             array_shift($path);
         }
         $route = '/' . implode('/', $path);
-        $assets->addJs(Uri::cleanPath($this->plugin_name . '-api' . $route . 'editor.js'));
+        $assets->addJs(Uri::cleanPath($this->plugin_name . '-api' . $route . '/' . 'editor.js'));
     }
 
     /**
