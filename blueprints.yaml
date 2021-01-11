@@ -1,10 +1,10 @@
 name: Editable with ContentTools
-version: 1.5.0
+version: 1.6.2
 description: A Frontend WYSIWYG Editor using ContentTools
 icon: edit
 author:
     name: bleutzinn
-    email: bleutzinn@festeto.net
+    email: bleutzinn@rwgc.nl
 homepage: https://github.com/bleutzinn/grav-plugin-editable-contenttools
 demo: https://festeto.net/demo-grav-plugin-editable-contenttools/
 keywords: grav, plugin, editor, wysiwyg, markdown, frontend
