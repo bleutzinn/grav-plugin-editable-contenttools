@@ -1,14 +1,21 @@
+# v1.6.2
+##  01/11/2021
+
+1. [](#bugfix)
+    * Corrected version number in blueprints.yaml
+    
 # v1.6.1
 ##  01/10/2021
 
-1. [](#fixed)
-    * Fixed a minor code glitch 
+1. [](#bugfix)
+    * Fixed a minor code glitch
+1. [](#improved)
     * Updated ReadMe to show compatibility with Grav version 1.7
 
 # v1.6.0
 ##  01/10/2021
 
-1. [](#fixed)
+1. [](#bugfix)
     * Fixed a problem with saving when installed in a subdirectory
 1. [](#improved)
     * Switched to using CDN for external libraries
