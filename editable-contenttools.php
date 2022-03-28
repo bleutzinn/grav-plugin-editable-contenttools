@@ -26,13 +26,13 @@ class EditableContentToolsPlugin extends Plugin
         $assets = $this->grav['assets'];
 
         // Add styles
-        $assets->addCss('https://cdn.jsdelivr.net/npm/ContentTools@1.6.12/build/content-tools.min.css');
+        $assets->addCss('https://cdnjs.cloudflare.com/ajax/libs/ContentTools/1.6.13/content-tools.min.css');
         $assets->addCss('plugin://' . $this->plugin_name . '/css/editor.css', 1);
 
         // Add code
-        $assets->addJs('https://cdn.jsdelivr.net/npm/turndown@7.0.0/dist/turndown.js');
-        $assets->addJs('https://cdn.jsdelivr.net/npm/ContentTools@1.6.12/build/content-tools.min.js');
-        $assets->AddJs('https://cdn.jsdelivr.net/npm/turndown-plugin-gfm@1.0.2/dist/turndown-plugin-gfm.js');
+        $assets->addJs('https://unpkg.com/turndown/dist/turndown.js');
+        $assets->addJs('https://cdnjs.cloudflare.com/ajax/libs/ContentTools/1.6.13/content-tools.min.js');
+        $assets->AddJs('https://unpkg.com/turndown-plugin-gfm/dist/turndown-plugin-gfm.js');
 
         // Add reference to dynamically created asset editor.js
         $route = $this->grav['uri']->baseIncludingLanguage() . $this->grav['uri']->route();
@@ -41,7 +41,7 @@ class EditableContentToolsPlugin extends Plugin
             array_shift($path);
         }
         $route = '/' . implode('/', $path);
-        $assets->addJs(Uri::cleanPath($this->plugin_name . '-api' . $route . '/' . 'editor.js'));
+        $assets->addJs(Uri::cleanPath('/' . $this->plugin_name . '-api' . $route . '/' . 'editor.js'));
     }
 
     /**
