@@ -2,7 +2,7 @@
 ##  31/03/2022
 
 1. [](#bugfix)
-    * Fixed an invalid path to the editor.js file when open_basedir restriction is in effect (issue [https://github.com/bleutzinn/grav-plugin-editable-contenttools/issues/12](#12)), thanks to [https://github.com/k-512](k512) for reporting.
+    * Fixed an invalid path to the editor.js file when open_basedir restriction is in effect (issue [#12](https://github.com/bleutzinn/grav-plugin-editable-contenttools/issues/12)), thanks to [k512](https://github.com/k-512) for reporting.
 
 # v1.6.2
 ##  01/11/2021
