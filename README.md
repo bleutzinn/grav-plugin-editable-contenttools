@@ -12,7 +12,7 @@ The plugin allows authors to edit page content in the frontend using the WYSIWYG
 
 ## Demo
 
-Before installing feel free to try the [demo](https://festeto.net/demo-grav-plugin-editable-contenttools/).
+Before installing feel free to try the [demo](https://rwgc.nl/lab/grav/demo-grav-plugin-editable-contenttools/).
 
 BTW Please visit the [ContentTools](http://getcontenttools.com/) website for tips on using the ContentTools editor, like holding down the Shift key for about 3 seconds to see what regions on the page are editable (tip!).
 
