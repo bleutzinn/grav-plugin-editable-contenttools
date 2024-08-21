@@ -1,5 +1,8 @@
 # Grav Editable with ContentTools Plugin
 
+***Abandonment Notice:** Creating and improving my plugins for Grav was fun to do, however times are changing and so am I. My interests have shifted away from coding and so I am abandoning my plugins. If you are interested in taking over please follow the ["Abandoned Resource Protocol"](https://learn.getgrav.org/advanced/grav-development#abandoned-resource-protocol). Simply skip the first two steps and refer to this statement in step 3.*
+
+
 The **Editable with ContentTools** Plugin is for [Grav CMS](http://github.com/getgrav/grav).
 
 The plugin allows authors to edit page content in the frontend using the WYSIWYG editor [ContentTools](http://getcontenttools.com/) and save it as Markdown.
